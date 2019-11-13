@@ -139,6 +139,7 @@ resource "azurerm_key_vault" "main" {
     secret_permissions = [
       "get",
       "set",
+      "delete",
     ]
   }
 
