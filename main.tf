@@ -6,8 +6,8 @@ resource "azurerm_resource_group" "main" {
 }
 
 resource "azurerm_virtual_network" "main" {
-  name                = "${var.prefix}-vnet"
-  address_space       = ["10.0.0.0/16"]
+  name                = "${var.prefix}-vnet1"
+  address_space       = var.address_space
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
 
@@ -17,14 +17,14 @@ resource "azurerm_virtual_network" "main" {
 }
 
 resource "azurerm_subnet" "main" {
-  name                 = "subnet"
+  name                 = "subnet1"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
-  address_prefix       = "10.0.2.0/24"
+  address_prefix       = var.address_prefix
 }
 
 resource "azurerm_public_ip" "main" {
-  name                = "${var.prefix}-pip"
+  name                = "${var.prefix}-pip1"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   allocation_method   = "Dynamic"
@@ -36,7 +36,7 @@ resource "azurerm_public_ip" "main" {
 }
 
 resource "azurerm_network_security_group" "main" {
-  name                = "${var.prefix}-nsg"
+  name                = "${var.prefix}-nsg1"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   
@@ -46,13 +46,13 @@ resource "azurerm_network_security_group" "main" {
 }
 
 resource "azurerm_network_interface" "main" {
-  name                      = "${var.prefix}-nic"
+  name                      = "${var.prefix}-nic1"
   location                  = azurerm_resource_group.main.location
   resource_group_name       = azurerm_resource_group.main.name
   network_security_group_id = azurerm_network_security_group.main.id
 
   ip_configuration {
-    name                          = "${var.prefix}-config"
+    name                          = "${var.prefix}-config1"
     subnet_id                     = azurerm_subnet.main.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.main.id
@@ -64,28 +64,28 @@ resource "azurerm_network_interface" "main" {
 }
 
 resource "azurerm_virtual_machine" "main" {
-  name                  = "${var.prefix}-vm"
+  name                  = "${var.prefix}-vm1"
   location              = azurerm_resource_group.main.location
   resource_group_name   = azurerm_resource_group.main.name
   network_interface_ids = [azurerm_network_interface.main.id]
-  vm_size               = "Standard_DS1_v2"
+  vm_size               = var.vm_size
 
   storage_os_disk {
-    name              = "${var.prefix}-disk"
+    name              = "${var.prefix}-disk1"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Premium_LRS"
   }
 
   storage_image_reference {
-    publisher = "MicrosoftWindowsDesktop"
-    offer     = "Windows-10"
-    sku       = "19h1-pro"
-    version   = "latest"
+    publisher = var.publisher
+    offer     = var.offer
+    sku       = var.sku
+    version   = var.version
   }
 
   os_profile {
-    computer_name  = "${var.prefix}-computer"
+    computer_name  = "${var.prefix}-vm1"
     admin_username = "${var.prefix}-user"
     admin_password = var.password
   }

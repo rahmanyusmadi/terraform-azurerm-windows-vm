@@ -6,7 +6,6 @@ A Terraform module to create a Windows 10 Pro virtual machine in Azure.
 module "mywindowsvm" {
   source   = "yusmadi/compute/azurerm"
   prefix   = "iamtesting"
-  location = "souteastasia"
   password = data.azurerm_key_vault_secret.main.value
 }
 ```
