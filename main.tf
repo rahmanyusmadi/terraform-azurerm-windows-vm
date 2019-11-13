@@ -51,6 +51,21 @@ resource "azurerm_network_security_group" "main" {
   }
 }
 
+resource "azurerm_network_security_rule" "remote_desktop" {
+  name                        = "Remote Access"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "${var.my_public_ip_address}/32"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.main.name
+}
+
+
 resource "azurerm_network_interface" "main" {
   name                      = "${var.prefix}-nic1"
   location                  = azurerm_resource_group.main.location
