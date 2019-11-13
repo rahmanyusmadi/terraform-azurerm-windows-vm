@@ -138,7 +138,7 @@ resource "azurerm_key_vault" "main" {
 }
 
 resource "azurerm_key_vault_secret" "password" {
-  name         = "${prefix}-password"
+  name         = "${var.prefix}-password"
   value        = random_password.password.result
   key_vault_id = "${azurerm_key_vault.main.id}"
 
