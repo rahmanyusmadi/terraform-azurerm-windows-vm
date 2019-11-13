@@ -122,7 +122,7 @@ resource "azurerm_virtual_machine" "main" {
   
   identity {
     type         = "UserAssigned"
-    identity_ids = "data.azurerm_client_config.main.client_id"
+    identity_ids = data.azurerm_client_config.main.client_id
   }
 
   tags = {
