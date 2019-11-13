@@ -32,3 +32,13 @@ resource "azurerm_public_ip" "main" {
         label = "terraform-azurerm-windows"
     }
 }
+
+resource "azurerm_network_security_group" "main" {
+    name                = "nsg1"
+    location            = data.azurerm_resource_group.main.location
+    resource_group_name = azurerm_resource_group.myterraformgroup.name
+    
+    tags = {
+        label = "terraform-azurerm-windows"
+    }
+}
