@@ -4,6 +4,6 @@ output "fqdn" {
 }
 
 output "username" {
-    value       = azurerm_virtual_machine.main.os_profile[0].admin_username
+    value       = "${var.prefix}-user"
     description = "Username to access the Windows virtual machine"
 }
