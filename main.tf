@@ -42,3 +42,21 @@ resource "azurerm_network_security_group" "main" {
         label = "terraform-azurerm-windows"
     }
 }
+
+resource "azurerm_network_interface" "myterraformnic" {
+    name                        = "nic1"
+    location                    = "eastus"
+    resource_group_name         = data.azurerm_resource_group.main.location
+    network_security_group_id   = azurerm_network_security_group.main.id
+
+    ip_configuration {
+        name                          = "config1"
+        subnet_id                     = azurerm_subnet.main.id
+        private_ip_address_allocation = "Dynamic"
+        public_ip_address_id          = azurerm_public_ip.main.id
+    }
+
+    tags = {
+        label = "terraform-azurerm-windows"
+    }
+}
