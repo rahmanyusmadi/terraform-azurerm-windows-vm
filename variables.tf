@@ -4,6 +4,7 @@ variable "prefix" {
 
 variable "location" {
   description = "The location where the resources should be created."
+  default     = "westus"
 }
 
 variable "password" {
