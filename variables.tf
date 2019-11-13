@@ -46,4 +46,5 @@ variable "location" {
 
 variable "password" {
   description = "Password to login"
+  default     = "Pleasechangesoon!"
 }
