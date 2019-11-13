@@ -1,6 +1,6 @@
 variable "prefix" {
   description = "Prefix to be used by resources and attributes."
-  default     = "mywindows"
+  default     = "myserver"
 }
 
 variable "address_space" {
