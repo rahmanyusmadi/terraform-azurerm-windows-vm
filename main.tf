@@ -123,7 +123,7 @@ resource "azurerm_virtual_machine" "main" {
   }
 }
 
-resource "azurerm_key_vault" "test" {
+resource "azurerm_key_vault" "main" {
   name                        = "${var.prefix}-vault"
   location                    = azurerm_resource_group.main.location
   resource_group_name         = azurerm_resource_group.main.name
@@ -131,6 +131,16 @@ resource "azurerm_key_vault" "test" {
   tenant_id                   = data.azurerm_client_config.main.tenant_id
 
   sku_name = "standard"
+
+  tags = {
+    label = var.prefix
+  }
+}
+
+resource "azurerm_key_vault_secret" "password" {
+  name         = "${prefix}-password"
+  value        = random_password.password.result
+  key_vault_id = "${azurerm_key_vault.main.id}"
 
   tags = {
     label = var.prefix
