@@ -1,5 +1,7 @@
 provider "azurerm" {}
 
+data "azurerm_client_config" "main" {}
+
 resource "random_password" "password" {
   length = 16
   special = true
@@ -115,6 +117,30 @@ resource "azurerm_virtual_machine" "main" {
     provision_vm_agent        = true
     enable_automatic_upgrades = true
   }
+
+  tags = {
+    label = var.prefix
+  }
+}
+
+resource "azurerm_key_vault" "main" {
+  name                        = "${var.prefix}-vault"
+  location                    = azurerm_resource_group.main.location
+  resource_group_name         = azurerm_resource_group.main.name
+  enabled_for_disk_encryption = true
+  tenant_id                   = data.azurerm_client_config.main.tenant_id
+
+  sku_name = "standard"
+
+  tags = {
+    label = var.prefix
+  }
+}
+
+resource "azurerm_key_vault_secret" "password" {
+  name         = "${var.prefix}-password"
+  value        = random_password.password.result
+  key_vault_id = "${azurerm_key_vault.main.id}"
 
   tags = {
     label = var.prefix
