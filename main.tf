@@ -54,7 +54,7 @@ resource "azurerm_network_security_group" "main" {
 resource "azurerm_network_interface" "main" {
   name                      = "nic1"
   location                  = azurerm_resource_group.main.location
-  resource_group_nam  e     = azurerm_resource_group.main.name
+  resource_group_name       = azurerm_resource_group.main.name
   network_security_group_id = azurerm_network_security_group.main.id
 
   ip_configuration {
