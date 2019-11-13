@@ -1,10 +1,10 @@
 provider "azurerm" {}
 
-variable password {}
+variable "password" {}
 
-variable location {}
+variable "location" {}
 
-variable name {}
+variable "name" {}
 
 resource "azurerm_resource_group" "main" {
   name = var.name
