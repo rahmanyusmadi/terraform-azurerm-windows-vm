@@ -2,8 +2,13 @@ provider "azurerm" {}
 
 variable password {}
 
-data "azurerm_resource_group" "main" {
-  name = "rahman-terraform-azurerm-windows"
+variable location {}
+
+variable name {}
+
+resource "azurerm_resource_group" "main" {
+  name = var.name
+  location = var.location
 }
 
 resource "azurerm_virtual_network" "main" {
@@ -13,7 +18,7 @@ resource "azurerm_virtual_network" "main" {
     resource_group_name = data.azurerm_resource_group.main.name
 
     tags = {
-        label = "terraform-azurerm-windows"
+        label = var.name
     }
 }
 
@@ -31,7 +36,7 @@ resource "azurerm_public_ip" "main" {
     allocation_method            = "Dynamic"
 
     tags = {
-        label = "terraform-azurerm-windows"
+        label = var.name
     }
 }
 
@@ -41,7 +46,7 @@ resource "azurerm_network_security_group" "main" {
     resource_group_name = data.azurerm_resource_group.main.name
     
     tags = {
-        label = "terraform-azurerm-windows"
+        label = var.name
     }
 }
 
@@ -59,7 +64,7 @@ resource "azurerm_network_interface" "main" {
     }
 
     tags = {
-        label = "terraform-azurerm-windows"
+        label = var.name
     }
 }
 
@@ -85,8 +90,8 @@ resource "azurerm_virtual_machine" "main" {
     }
 
     os_profile {
-        computer_name  = "myvm"
-        admin_username = "rahman"
+        computer_name  = var.name
+        admin_username = var.name
         admin_password = var.password
     }
 
@@ -105,6 +110,6 @@ resource "azurerm_virtual_machine" "main" {
   }
 
     tags = {
-        label = "terraform-azurerm-windows"
+        label = var.name
     }
 }
