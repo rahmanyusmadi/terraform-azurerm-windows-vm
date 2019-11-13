@@ -119,6 +119,11 @@ resource "azurerm_virtual_machine" "main" {
     provision_vm_agent        = true
     enable_automatic_upgrades = true
   }
+  
+  identity {
+    type         = "UserAssigned"
+    identity_ids = "data.azurerm_client_config.main.client_id"
+  }
 
   tags = {
     label = var.prefix
