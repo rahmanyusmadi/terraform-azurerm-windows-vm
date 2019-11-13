@@ -13,6 +13,9 @@ variable "address_prefix" {
   default     = "10.0.2.0/24"
 }
 
+variable "my_public_ip_address" {
+  description = "Public IP address to allow remote access"
+}
 
 variable "vm_size" {
   description = "Specifies the size of the Virtual Machine."
