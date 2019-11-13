@@ -81,7 +81,7 @@ resource "azurerm_virtual_machine" "main" {
     publisher = var.publisher
     offer     = var.offer
     sku       = var.sku
-    version   = var.version
+    version   = var.image_version
   }
 
   os_profile {

@@ -33,7 +33,7 @@ variable "sku" {
   default     = "19h1-pro"
 }
 
-variable "version" {
+variable "image_version" {
   description = "Specifies the version of the image used to create the virtual machine. Changing this forces a new resource to be created."
   default     = "latest"
 }
