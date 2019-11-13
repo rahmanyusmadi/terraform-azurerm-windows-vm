@@ -132,6 +132,15 @@ resource "azurerm_key_vault" "main" {
 
   sku_name = "standard"
 
+  access_policy {
+    tenant_id = data.azurerm_client_config.main.tenant_id
+    object_id = data.azurerm_client_config.main.object_id
+
+    secret_permissions = [
+      "set",
+    ]
+  }
+
   tags = {
     label = var.prefix
   }
