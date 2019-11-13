@@ -1,5 +1,6 @@
 variable "prefix" {
   description = "Prefix to be used by resources and attributes."
+  default     = "mywindows"
 }
 
 variable "address_space" {
@@ -46,4 +47,3 @@ variable "location" {
 variable "password" {
   description = "Password to login"
 }
-

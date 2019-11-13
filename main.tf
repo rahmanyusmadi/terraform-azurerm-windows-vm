@@ -1,5 +1,11 @@
 provider "azurerm" {}
 
+resource "random_string" "password" {
+  length = 16
+  special = true
+  override_special = "/@£$"
+}
+
 resource "azurerm_resource_group" "main" {
   name     = var.prefix
   location = var.location
@@ -87,7 +93,7 @@ resource "azurerm_virtual_machine" "main" {
   os_profile {
     computer_name  = "${var.prefix}-vm1"
     admin_username = "${var.prefix}-user"
-    admin_password = var.password
+    admin_password = var.password != "" ? var.password : random_string.password.result
   }
 
   os_profile_windows_config {

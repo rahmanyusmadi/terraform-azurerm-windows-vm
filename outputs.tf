@@ -7,3 +7,9 @@ output "username" {
     value       = "${var.prefix}-user"
     description = "Username to access the Windows virtual machine"
 }
+
+output "password" {
+    value       = random_string.password.result
+    description = "Username to access the Windows virtual machine"
+    sensitive   = true
+}
