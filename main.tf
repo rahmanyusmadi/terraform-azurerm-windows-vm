@@ -93,7 +93,7 @@ resource "azurerm_virtual_machine" "main" {
   os_profile {
     computer_name  = "${var.prefix}"
     admin_username = "${var.prefix}-user"
-    admin_password = var.password != "" ? var.password : random_password.password.result
+    admin_password = random_password.password.result
   }
 
   os_profile_windows_config {

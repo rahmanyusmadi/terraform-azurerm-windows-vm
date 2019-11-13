@@ -43,8 +43,3 @@ variable "location" {
   description = "The location where the resources should be created."
   default     = "westus"
 }
-
-variable "password" {
-  description = "Password to login"
-  default     = "Pleasechangesoon!"
-}
