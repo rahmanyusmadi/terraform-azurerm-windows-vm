@@ -5,7 +5,6 @@ A Terraform module to create a Windows virtual machine in Azure.
 ```
 module "windows" {
   source  = "yusmadi/windows/azurerm"
-  version = "1.0.0"
 }
 ```
 
