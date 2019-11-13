@@ -43,10 +43,10 @@ resource "azurerm_network_security_group" "main" {
     }
 }
 
-resource "azurerm_network_interface" "myterraformnic" {
+resource "azurerm_network_interface" "main" {
     name                        = "nic1"
     location                    = "eastus"
-    resource_group_name         = data.azurerm_resource_group.main.location
+    resource_group_name         = data.azurerm_resource_group.main.name
     network_security_group_id   = azurerm_network_security_group.main.id
 
     ip_configuration {
@@ -55,6 +55,52 @@ resource "azurerm_network_interface" "myterraformnic" {
         private_ip_address_allocation = "Dynamic"
         public_ip_address_id          = azurerm_public_ip.main.id
     }
+
+    tags = {
+        label = "terraform-azurerm-windows"
+    }
+}
+
+resource "azurerm_virtual_machine" "main" {
+    name                  = "vm1"
+    location              = data.azurerm_resource_group.main.location
+    resource_group_name   = data.azurerm_resource_group.main.name
+    network_interface_ids = [azurerm_network_interface.main.id]
+    vm_size               = "Standard_DS1_v2"
+
+    storage_os_disk {
+        name              = "disk1"
+        caching           = "ReadWrite"
+        create_option     = "FromImage"
+        managed_disk_type = "Premium_LRS"
+    }
+
+    storage_image_reference {
+        publisher = "MicrosoftWindowsDesktop"
+        offer     = "Windows-10"
+        sku       = "19h1-pro"
+        version   = "latest"
+    }
+
+    os_profile {
+        computer_name  = "myvm"
+        admin_username = "rahman"
+        admin_password = var.password
+    }
+
+  os_profile_windows_config {
+    provision_vm_agent        = true
+    enable_automatic_upgrades = true
+
+    # Auto-Login's required to configure WinRM
+    additional_unattend_config {
+      pass         = "oobeSystem"
+      component    = "Microsoft-Windows-Shell-Setup"
+      setting_name = "AutoLogon"
+      content      = "<AutoLogon><Password><Value>${var.password}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.password}</Username></AutoLogon>"
+    }
+
+  }
 
     tags = {
         label = "terraform-azurerm-windows"
