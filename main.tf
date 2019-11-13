@@ -4,10 +4,10 @@ variable "password" {}
 
 variable "location" {}
 
-variable "name" {}
+variable "prefix" {}
 
 resource "azurerm_resource_group" "main" {
-  name = var.name
+  name = var.prefix
   location = var.location
 }
 
@@ -18,7 +18,7 @@ resource "azurerm_virtual_network" "main" {
   resource_group_name = azurerm_resource_group.main.name
 
   tags = {
-    label = var.name
+    label = var.prefix
   }
 }
 
@@ -34,10 +34,10 @@ resource "azurerm_public_ip" "main" {
   location           = azurerm_resource_group.main.location
   resource_group_name      = azurerm_resource_group.main.name
   allocation_method      = "Dynamic"
-  domain_name_label = var.name
+  domain_name_label = var.prefix
 
   tags = {
-    label = var.name
+    label = var.prefix
   }
 }
 
@@ -47,7 +47,7 @@ resource "azurerm_network_security_group" "main" {
   resource_group_name = azurerm_resource_group.main.name
   
   tags = {
-    label = var.name
+    label = var.prefix
   }
 }
 
@@ -65,7 +65,7 @@ resource "azurerm_network_interface" "main" {
   }
 
   tags = {
-    label = var.name
+    label = var.prefix
   }
 }
 
@@ -91,8 +91,8 @@ resource "azurerm_virtual_machine" "main" {
   }
 
   os_profile {
-    computer_name  = var.name
-    admin_username = var.name
+    computer_name  = var.prefix
+    admin_username = var.prefix
     admin_password = var.password
   }
 
@@ -111,6 +111,6 @@ resource "azurerm_virtual_machine" "main" {
   }
 
   tags = {
-    label = var.name
+    label = var.prefix
   }
 }
