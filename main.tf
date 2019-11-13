@@ -24,16 +24,17 @@ resource "azurerm_virtual_network" "main" {
 
 resource "azurerm_subnet" "main" {
     name                 = "subnet1"
-    resource_group_name  = data.azurerm_resource_group.main.name
+    resource_group_name  = azurerm_resource_group.main.name
     virtual_network_name = azurerm_virtual_network.main.name
     address_prefix       = "10.0.2.0/24"
 }
 
 resource "azurerm_public_ip" "main" {
     name                         = "pip1"
-    location                     = data.azurerm_resource_group.main.location
-    resource_group_name          = data.azurerm_resource_group.main.name
+    location                     = azurerm_resource_group.main.location
+    resource_group_name          = azurerm_resource_group.main.name
     allocation_method            = "Dynamic"
+  azurerm_public_ip = var.name
 
     tags = {
         label = var.name
@@ -42,8 +43,8 @@ resource "azurerm_public_ip" "main" {
 
 resource "azurerm_network_security_group" "main" {
     name                = "nsg1"
-    location            = data.azurerm_resource_group.main.location
-    resource_group_name = data.azurerm_resource_group.main.name
+    location            = azurerm_resource_group.main.location
+    resource_group_name = azurerm_resource_group.main.name
     
     tags = {
         label = var.name
@@ -53,7 +54,7 @@ resource "azurerm_network_security_group" "main" {
 resource "azurerm_network_interface" "main" {
     name                        = "nic1"
     location                    = "eastus"
-    resource_group_name         = data.azurerm_resource_group.main.name
+    resource_group_name         = azurerm_resource_group.main.name
     network_security_group_id   = azurerm_network_security_group.main.id
 
     ip_configuration {
@@ -70,8 +71,8 @@ resource "azurerm_network_interface" "main" {
 
 resource "azurerm_virtual_machine" "main" {
     name                  = "vm1"
-    location              = data.azurerm_resource_group.main.location
-    resource_group_name   = data.azurerm_resource_group.main.name
+    location              = azurerm_resource_group.main.location
+    resource_group_name   = azurerm_resource_group.main.name
     network_interface_ids = [azurerm_network_interface.main.id]
     vm_size               = "Standard_DS1_v2"
 
