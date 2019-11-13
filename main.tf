@@ -137,6 +137,7 @@ resource "azurerm_key_vault" "main" {
     object_id = data.azurerm_client_config.main.object_id
 
     secret_permissions = [
+      "get",
       "set",
     ]
   }
