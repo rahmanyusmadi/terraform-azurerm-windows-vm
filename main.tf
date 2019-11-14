@@ -1,5 +1,9 @@
 provider "azurerm" {
-  required_version = "~< 0.12.0"
+  required_version = "~> 0.12.0"
+
+  required_providers {
+    azurerm = "~> 1.36.0"
+  }
 }
 
 data "azurerm_client_config" "main" {}
