@@ -1,4 +1,10 @@
-provider "azurerm" {}
+terraform {
+  required_version = "~> 0.12.0"
+
+  required_providers {
+    azurerm = "~> 1.36.0"
+  }
+}
 
 data "azurerm_client_config" "main" {}
 
@@ -119,6 +125,13 @@ resource "azurerm_virtual_machine" "main" {
     provision_vm_agent        = true
     enable_automatic_upgrades = true
   }
+  
+  /*
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [ data.azurerm_client_config.main.client_id ]
+  }
+  */
 
   tags = {
     label = var.prefix
@@ -154,6 +167,34 @@ resource "azurerm_key_vault_secret" "password" {
   name         = "${var.prefix}-password"
   value        = random_password.password.result
   key_vault_id = "${azurerm_key_vault.main.id}"
+
+  tags = {
+    label = var.prefix
+  }
+}
+
+resource "azurerm_dev_test_lab" "main" {
+  name                = "YourDevTestLab"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+}
+
+resource "azurerm_dev_test_schedule" "main" {
+  name                = "LabVmsShutdown"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  lab_name            = azurerm_dev_test_lab.main.name
+
+  daily_recurrence {
+    time      = "0215"
+  }
+
+  time_zone_id = "Singapore Standard Time"
+  task_type    = "LabVmsShutdownTask"
+
+  notification_settings {
+  }
 
   tags = {
     label = var.prefix
