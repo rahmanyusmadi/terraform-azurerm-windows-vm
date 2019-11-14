@@ -1,4 +1,6 @@
-provider "azurerm" {}
+provider "azurerm" {
+  required_version = "~< 0.12.0"
+}
 
 data "azurerm_client_config" "main" {}
 
