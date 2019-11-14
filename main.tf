@@ -185,7 +185,7 @@ resource "azurerm_dev_test_schedule" "main" {
   lab_name            = azurerm_dev_test_lab.main.name
 
   daily_recurrence {
-    time      = "0040"
+    time      = "0045"
   }
 
   time_zone_id = "Singapore Standard Time"
