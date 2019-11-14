@@ -189,7 +189,7 @@ resource "azurerm_dev_test_schedule" "main" {
   status = "Enabled"
 
   daily_recurrence {
-    time      = "0225"
+    time      = "0229"
   }
 
   time_zone_id = "Singapore Standard Time"
