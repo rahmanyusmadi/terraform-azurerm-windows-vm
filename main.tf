@@ -170,3 +170,31 @@ resource "azurerm_key_vault_secret" "password" {
     label = var.prefix
   }
 }
+
+resource "azurerm_dev_test_lab" "main" {
+  name                = "YourDevTestLab"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+}
+
+resource "azurerm_dev_test_schedule" "main" {
+  name                = "shutdown-computevm-windows10"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  lab_name            = azurerm_dev_test_lab.main.name
+
+  daily_recurrence {
+    time      = "0040"
+  }
+
+  time_zone_id = "Singapore Standard Time"
+  task_type    = "LabVmsShutdownTask "
+
+  notification_settings {
+  }
+
+  tags = {
+    label = var.prefix
+  }
+}
