@@ -185,9 +185,11 @@ resource "azurerm_dev_test_schedule" "main" {
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   lab_name            = azurerm_dev_test_lab.main.name
+  
+  status = "Enabled"
 
   daily_recurrence {
-    time      = "0215"
+    time      = "0225"
   }
 
   time_zone_id = "Singapore Standard Time"
