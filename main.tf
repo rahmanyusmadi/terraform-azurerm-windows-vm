@@ -181,7 +181,7 @@ resource "azurerm_dev_test_lab" "main" {
 }
 
 resource "azurerm_dev_test_schedule" "main" {
-  name                = "LabVmsShutdown"
+  name                = "shutdown-compute-${var.prefix}-vm1"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   lab_name            = azurerm_dev_test_lab.main.name
@@ -189,11 +189,11 @@ resource "azurerm_dev_test_schedule" "main" {
   status = "Enabled"
 
   daily_recurrence {
-    time      = "0807"
+    time      = "0823"
   }
 
   time_zone_id = "Singapore Standard Time"
-  task_type    = "LabVmsShutdownTask"
+  task_type    = "ComputeVmShutdownTask"
 
   notification_settings {
   }
