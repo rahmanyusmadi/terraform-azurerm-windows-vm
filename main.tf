@@ -173,6 +173,7 @@ resource "azurerm_key_vault_secret" "password" {
   }
 }
 
+/* auto-shutdown doesn't work at the moment. refer terraform-provider-azurerm issues with service/devtestlabs label
 resource "azurerm_dev_test_lab" "main" {
   name                = "YourDevTestLab"
   location            = azurerm_resource_group.main.location
@@ -202,3 +203,5 @@ resource "azurerm_dev_test_schedule" "main" {
     label = var.prefix
   }
 }
+*/
+  
