@@ -215,96 +215,19 @@ resource "azurerm_template_deployment" "main" {
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "type": "String",
-            "defaultValue": "southeastasia"
-        },
-        "networkInterfaceName": {
-            "type": "String",
-            "defaultValue": "windows10nic"
-        },
-        "networkSecurityGroupName": {
-            "type": "String",
-            "defaultValue": "windows10-nsg"
-        },
-        "subnetName": {
-            "type": "String",
-            "defaultValue": "default"
-        },
-        "virtualNetworkName": {
-            "type": "String",
-            "defaultValue": "dockerlab-vnet"
-        },
-        "addressPrefixes": {
-            "type": "Array",
-            "defaultValue": [
-                "10.0.0.0/24"
-            ]
-        },
-        "subnets": {
-            "type": "Array",
-            "defaultValue": [
-                {
-                    "name": "default",
-                    "properties": {
-                        "addressPrefix": "10.0.0.0/24"
-                    }
-                }
-            ]
-        },
-        "publicIpAddressName": {
-            "type": "String",
-            "defaultValue": "windows10-ip"
-        },
-        "publicIpAddressType": {
-            "type": "String",
-            "defaultValue": "Dynamic"
-        },
-        "domainNameLabel": {
             "type": "String"
         },
-        "publicIpAddressSku": {
-            "type": "String",
-            "defaultValue": "Basic"
-        },
         "virtualMachineName": {
-            "type": "String",
-            "defaultValue": "windows10"
-        },
-        "virtualMachineRG": {
-            "type": "String",
-            "defaultValue": "dockerlab-rg"
-        },
-        "osDiskType": {
-            "type": "String",
-            "defaultValue": "Premium_LRS"
-        },
-        "virtualMachineSize": {
-            "type": "String",
-            "defaultValue": "Standard_D2s_v3"
-        },
-        "adminUsername": {
-            "type": "String",
-            "defaultValue": "dockeruser"
+            "type": "String"
         },
         "autoShutdownStatus": {
-            "type": "String",
-            "defaultValue": "Enabled"
+            "type": "String"
         },
         "autoShutdownTime": {
-            "type": "String",
-            "defaultValue": "19:00"
+            "type": "String"
         },
         "autoShutdownTimeZone": {
-            "type": "String",
-            "defaultValue": "UTC"
-        },
-        "autoShutdownNotificationStatus": {
-            "type": "String",
-            "defaultValue": "Enabled"
-        },
-        "autoShutdownNotificationLocale": {
-            "type": "String",
-            "defaultValue": "en"
+            "type": "String"
         }
     },
     "variables": {
