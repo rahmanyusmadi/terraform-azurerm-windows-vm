@@ -9,8 +9,8 @@ terraform {
 data "azurerm_client_config" "main" {}
 
 resource "random_password" "password" {
-  length = 16
-  special = true
+  length           = 16
+  special          = true
   override_special = "_%@"
 }
 
@@ -72,7 +72,6 @@ resource "azurerm_network_security_rule" "remote_desktop" {
   resource_group_name         = azurerm_resource_group.main.name
   network_security_group_name = azurerm_network_security_group.main.name
 }
-
 
 resource "azurerm_network_interface" "main" {
   name                      = "${var.prefix}-nic1"
@@ -204,7 +203,7 @@ resource "azurerm_dev_test_schedule" "main" {
   }
 }
 */
-  
+
 resource "azurerm_template_deployment" "main" {
   name                = "${var.prefix}-template1"
   resource_group_name = azurerm_resource_group.main.name

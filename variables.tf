@@ -38,7 +38,7 @@ variable "offer" {
 }
 
 variable "sku" {
-  description = "Specifies the SKU of the image used to create the virtual machine. Changing this forces a new resource to be created."  
+  description = "Specifies the SKU of the image used to create the virtual machine. Changing this forces a new resource to be created."
   default     = "19h1-pro"
 }
 
