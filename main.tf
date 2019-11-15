@@ -249,12 +249,6 @@ resource "azurerm_template_deployment" "main" {
                 },
                 "timeZoneId": "[parameters('autoShutdownTimeZone')]",
                 "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
-                "notificationSettings": {
-                    "status": "[parameters('autoShutdownNotificationStatus')]",
-                    "notificationLocale": "[parameters('autoShutdownNotificationLocale')]",
-                    "timeInMinutes": "30",
-                    "emailRecipient": "[parameters('autoShutdownNotificationEmail')]"
-                }
             }
         }
     ],
