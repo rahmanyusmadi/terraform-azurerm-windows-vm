@@ -253,6 +253,7 @@ resource "azurerm_template_deployment" "main" {
 }
 DEPLOY
 
+
   # these key-value pairs are passed into the ARM Template's `parameters` block
   parameters = {
     "location"             = azurerm_resource_group.main.location
