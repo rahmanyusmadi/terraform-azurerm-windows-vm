@@ -207,7 +207,7 @@ resource "azurerm_dev_test_schedule" "main" {
   
 resource "azurerm_template_deployment" "main" {
   name                = "${var.prefix}-template1"
-  resource_group_name = "${azurerm_resource_group.main.name}"
+  resource_group_name = azurerm_resource_group.main.name
 
   template_body = <<DEPLOY
 {
