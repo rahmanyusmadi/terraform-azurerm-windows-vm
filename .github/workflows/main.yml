@@ -34,6 +34,6 @@ jobs:
         with:
           tf_actions_version: 0.12.13
           tf_actions_subcommand: 'plan'
-          args: '-var="my_public_ip_address=1.1.1.1"'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TF_VAR_my_public_ip_address: '1.1.1.1'
