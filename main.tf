@@ -238,9 +238,6 @@ resource "azurerm_template_deployment" "main" {
             "apiVersion": "2017-04-26-preview",
             "name": "[concat('shutdown-computevm-', parameters('virtualMachineName'))]",
             "location": "[parameters('location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
-            ],
             "properties": {
                 "status": "[parameters('autoShutdownStatus')]",
                 "taskType": "ComputeVmShutdownTask",
