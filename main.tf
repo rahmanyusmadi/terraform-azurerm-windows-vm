@@ -305,7 +305,7 @@ resource "azurerm_template_deployment" "main" {
         "autoShutdownNotificationLocale": {
             "type": "String",
             "defaultValue": "en"
-        },
+        }
     },
     "variables": {
     },
