@@ -209,50 +209,7 @@ resource "azurerm_template_deployment" "main" {
   name                = "${var.prefix}-template1"
   resource_group_name = azurerm_resource_group.main.name
 
-  template_body = <<DEPLOY
-{
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "location": {
-            "type": "String",
-        },
-        "virtualMachineName": {
-            "type": "String",
-        },
-        "autoShutdownStatus": {
-            "type": "String",
-        },
-        "autoShutdownTime": {
-            "type": "String",
-        },
-        "autoShutdownTimeZone": {
-            "type": "String",
-        },
-    },
-    "resources": [
-        {
-            "type": "Microsoft.DevTestLab/schedules",
-            "apiVersion": "2017-04-26-preview",
-            "name": "[concat('shutdown-computevm-', parameters('virtualMachineName'))]",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', parameters('virtualMachineName'))]"
-            ],
-            "properties": {
-                "status": "[parameters('autoShutdownStatus')]",
-                "taskType": "ComputeVmShutdownTask",
-                "dailyRecurrence": {
-                    "time": "[parameters('autoShutdownTime')]"
-                },
-                "timeZoneId": "[parameters('autoShutdownTimeZone')]",
-                "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
-            }
-        }
-    ]
-}
-DEPLOY
-
+  template_body = file("auto-shutdown.json")
 
   # these key-value pairs are passed into the ARM Template's `parameters` block
   parameters = {
