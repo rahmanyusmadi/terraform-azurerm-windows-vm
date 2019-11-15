@@ -286,9 +286,6 @@ resource "azurerm_template_deployment" "main" {
             "type": "String",
             "defaultValue": "dockeruser"
         },
-        "adminPassword": {
-            "type": "SecureString"
-        },
         "autoShutdownStatus": {
             "type": "String",
             "defaultValue": "Enabled"
@@ -309,9 +306,6 @@ resource "azurerm_template_deployment" "main" {
             "type": "String",
             "defaultValue": "en"
         },
-        "autoShutdownNotificationEmail": {
-            "type": "String"
-        }
     },
     "variables": {
     },
