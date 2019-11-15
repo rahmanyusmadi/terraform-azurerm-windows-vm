@@ -1,3 +1,8 @@
+variable "location" {
+  description = "The location where the resources should be created."
+  default     = "westus"
+}
+
 variable "prefix" {
   description = "Prefix to be used by resources and attributes."
   default     = "myserver"
@@ -40,11 +45,6 @@ variable "sku" {
 variable "image_version" {
   description = "Specifies the version of the image used to create the virtual machine. Changing this forces a new resource to be created."
   default     = "latest"
-}
-
-variable "location" {
-  description = "The location where the resources should be created."
-  default     = "westus"
 }
 
 variable "autoShutdownStatus" {
