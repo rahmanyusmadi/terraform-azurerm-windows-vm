@@ -1,3 +1,8 @@
+variable "location" {
+  description = "The location where the resources should be created."
+  default     = "westus"
+}
+
 variable "prefix" {
   description = "Prefix to be used by resources and attributes."
   default     = "myserver"
@@ -42,7 +47,17 @@ variable "image_version" {
   default     = "latest"
 }
 
-variable "location" {
-  description = "The location where the resources should be created."
-  default     = "westus"
+variable "autoShutdownStatus" {
+  description = "The status of the schedule (i.e. Enabled, Disabled). - Enabled or Disabled"
+  default     = "Enabled"
+}
+
+variable "autoShutdownTime" {
+  description = "The time of day the schedule will occur."
+  default     = "00:00"
+}
+
+variable "autoShutdownTimeZone" {
+  description = "The time zone ID (e.g. Pacific Standard time)."
+  default     = "UTC"
 }

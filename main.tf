@@ -126,10 +126,12 @@ resource "azurerm_virtual_machine" "main" {
     enable_automatic_upgrades = true
   }
   
+  /*
   identity {
     type         = "UserAssigned"
     identity_ids = [ data.azurerm_client_config.main.client_id ]
   }
+  */
 
   tags = {
     label = var.prefix
@@ -171,6 +173,7 @@ resource "azurerm_key_vault_secret" "password" {
   }
 }
 
+/* auto-shutdown doesn't work at the moment. refer terraform-provider-azurerm issues with service/devtestlabs label
 resource "azurerm_dev_test_lab" "main" {
   name                = "YourDevTestLab"
   location            = azurerm_resource_group.main.location
@@ -179,17 +182,19 @@ resource "azurerm_dev_test_lab" "main" {
 }
 
 resource "azurerm_dev_test_schedule" "main" {
-  name                = "shutdown-computevm-windows10"
+  name                = "shutdown-compute-${var.prefix}-vm1"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   lab_name            = azurerm_dev_test_lab.main.name
+  
+  status = "Enabled"
 
   daily_recurrence {
-    time      = "0045"
+    time      = "0852"
   }
 
   time_zone_id = "Singapore Standard Time"
-  task_type    = "LabVmsShutdownTask "
+  task_type    = "ComputeVmShutdownTask"
 
   notification_settings {
   }
@@ -197,4 +202,69 @@ resource "azurerm_dev_test_schedule" "main" {
   tags = {
     label = var.prefix
   }
+}
+*/
+  
+resource "azurerm_template_deployment" "main" {
+  name                = "${var.prefix}-template1"
+  resource_group_name = azurerm_resource_group.main.name
+
+  template_body = <<DEPLOY
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "String"
+        },
+        "virtualMachineName": {
+            "type": "String"
+        },
+        "autoShutdownStatus": {
+            "type": "String"
+        },
+        "autoShutdownTime": {
+            "type": "String"
+        },
+        "autoShutdownTimeZone": {
+            "type": "String"
+        }
+    },
+    "variables": {
+    },
+    "resources": [
+        {
+            "type": "Microsoft.DevTestLab/schedules",
+            "apiVersion": "2017-04-26-preview",
+            "name": "[concat('shutdown-computevm-', parameters('virtualMachineName'))]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "status": "[parameters('autoShutdownStatus')]",
+                "taskType": "ComputeVmShutdownTask",
+                "dailyRecurrence": {
+                    "time": "[parameters('autoShutdownTime')]"
+                },
+                "timeZoneId": "[parameters('autoShutdownTimeZone')]",
+                "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]"
+            }
+        }
+    ],
+    "outputs": {
+    }
+}
+DEPLOY
+
+  parameters = {
+    "location"             = azurerm_resource_group.main.location
+    "virtualMachineName"   = azurerm_virtual_machine.main.name
+    "autoShutdownStatus"   = var.autoShutdownStatus
+    "autoShutdownTime"     = var.autoShutdownTime
+    "autoShutdownTimeZone" = var.autoShutdownTimeZone
+  }
+
+  deployment_mode = "Incremental"
+
+  depends_on = [
+    azurerm_virtual_machine.main
+  ]
 }
