@@ -9,14 +9,14 @@ A Terraform module to create a Windows virtual machine in Azure.
 #### The simplest example how to use this module
 ```
 module "windows" {
-  source = "yusmadi/windows/azurerm"
+  source = "yusmadi/windows-vm/azurerm"
 }
 ```
 
 #### Full example how to use this module
 ```
 module "windows" {
-  source               = "yusmadi/windows/azurerm"
+  source               = "yusmadi/windows-vm/azurerm"
   prefix               = "mywindows"
   location             = "southeastasia"
   address_space        = ["10.0.0.0/16"]
