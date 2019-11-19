@@ -9,9 +9,12 @@ terraform {
 data "azurerm_client_config" "main" {}
 
 resource "random_password" "password" {
-  length           = 16
+  length           = 8
+  min_upper        = 1
+  min_lower        = 1
+  min_special      = 1
   special          = true
-  override_special = "_%@"
+  override_special = "!@#$%&"
 }
 
 resource "azurerm_resource_group" "main" {
